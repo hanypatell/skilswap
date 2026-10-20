@@ -1,0 +1,43 @@
+@model SkillBrowseViewModel
+@{ ViewData["Title"] = "Browse skills"; }
+
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
+    <div>
+        <h1 class="h3 mb-1">Browse skills</h1>
+        <p class="text-muted mb-0">@Model.Skills.Count skill@(Model.Skills.Count == 1 ? "" : "s") available</p>
+    </div>
+    <form asp-action="Index" method="get" class="d-flex gap-2 flex-grow-1" style="max-width:420px">
+        @if (Model.CategoryId.HasValue)
+        {
+            <input type="hidden" name="categoryId" value="@Model.CategoryId" />
+        }
+        <input type="search" name="search" value="@Model.Search" class="form-control" placeholder="Search skills or teachers" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="chip-row mb-4">
+    <a class="chip @(Model.CategoryId == null ? "active" : "")" asp-action="Index" asp-route-search="@Model.Search">All</a>
+    @foreach (var c in Model.Categories)
+    {
+        <a class="chip @(Model.CategoryId == c.Id ? "active" : "")" asp-action="Index" asp-route-categoryId="@c.Id" asp-route-search="@Model.Search">@c.Icon @c.Name</a>
+    }
+</div>
+
+@if (!Model.Skills.Any())
+{
+    <div class="ss-card empty-state">
+        <div class="big">🔍</div>
+        <p>No skills match your search.</p>
+        <a asp-action="Create" class="btn btn-primary">Be the first to offer one</a>
+    </div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var card in Model.Skills)
+        {
+            <div class="col-md-6 col-lg-4"><partial name="_SkillCard" model="card" /></div>
+        }
+    </div>
+}

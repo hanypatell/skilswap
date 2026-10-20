@@ -1,0 +1,78 @@
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Trade skills, not money";
+    var loggedIn = Context.Session.GetUserId() != null;
+}
+
+<section class="hero mb-4">
+    <span class="tag tag-accent mb-3">Student time bank</span>
+    <h1 class="mt-2">Teach what you know. Learn what you don't. No money needed.</h1>
+    <p class="my-3">Teach someone for 1 hour and earn 1 credit. Spend that credit on an hour of DSA help, guitar, Figma or anything else your classmates can teach.</p>
+    <div class="d-flex flex-wrap gap-2 position-relative" style="z-index:1">
+        <a class="btn btn-light btn-lg" asp-controller="Skills" asp-action="Index">Browse skills</a>
+        @if (loggedIn)
+        {
+            <a class="btn btn-outline-light btn-lg" asp-controller="Skills" asp-action="Create">Offer a skill</a>
+        }
+        else
+        {
+            <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Register">Join and get 3 free credits</a>
+        }
+    </div>
+</section>
+
+<section class="ss-card mb-5">
+    <div class="row g-3">
+        <div class="col-4 stat"><strong>@Model.MemberCount</strong><span>Members</span></div>
+        <div class="col-4 stat"><strong>@Model.SkillCount</strong><span>Skills offered</span></div>
+        <div class="col-4 stat"><strong>@Model.HoursExchanged</strong><span>Hours exchanged</span></div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2 class="h4 mb-0">Fresh skills</h2>
+        <a asp-controller="Skills" asp-action="Index">See all →</a>
+    </div>
+    <div class="row g-3">
+        @foreach (var card in Model.LatestSkills)
+        {
+            <div class="col-md-6 col-lg-4"><partial name="_SkillCard" model="card" /></div>
+        }
+    </div>
+</section>
+
+<div class="row g-4">
+    <section class="col-lg-7">
+        <h2 class="h4 mb-3">How it works</h2>
+        <div class="row g-3">
+            <div class="col-sm-4"><div class="ss-card h-100"><div class="step-num">1</div><h3 class="h6">Offer a skill</h3><p class="text-muted small mb-0">List anything you can teach, from C# to badminton.</p></div></div>
+            <div class="col-sm-4"><div class="ss-card h-100"><div class="step-num">2</div><h3 class="h6">Book a session</h3><p class="text-muted small mb-0">Credits are held until the session happens.</p></div></div>
+            <div class="col-sm-4"><div class="ss-card h-100"><div class="step-num">3</div><h3 class="h6">Earn and rate</h3><p class="text-muted small mb-0">Teacher earns the credits, learner leaves a review.</p></div></div>
+        </div>
+    </section>
+    <section class="col-lg-5">
+        <div class="d-flex justify-content-between align-items-end mb-3">
+            <h2 class="h4 mb-0">Top teachers</h2>
+            <a asp-action="Leaderboard">Full board →</a>
+        </div>
+        <div class="ss-card p-0">
+            @foreach (var t in Model.TopTeachers)
+            {
+                <div class="d-flex align-items-center gap-3 px-3 py-2 border-bottom">
+                    <span class="rank rank-@t.Rank">#@t.Rank</span>
+                    <partial name="_Avatar" model="t.Name" />
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">@t.Name</div>
+                        <div class="small text-muted">@t.HoursTaught hrs taught</div>
+                    </div>
+                    <partial name="_Stars" model="t.AverageRating" />
+                </div>
+            }
+            @if (!Model.TopTeachers.Any())
+            {
+                <p class="text-muted p-3 mb-0">No sessions completed yet. Be the first!</p>
+            }
+        </div>
+    </section>
+</div>

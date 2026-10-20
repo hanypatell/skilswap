@@ -1,0 +1,35 @@
+@model SkillOffer
+<div asp-validation-summary="ModelOnly" class="mb-3"></div>
+<div class="mb-3">
+    <label asp-for="Title" class="form-label"></label>
+    <input asp-for="Title" class="form-control" placeholder="e.g. Python for beginners" />
+    <span asp-validation-for="Title"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Description" class="form-label"></label>
+    <textarea asp-for="Description" class="form-control" rows="4" placeholder="What will the learner be able to do after the session?"></textarea>
+    <span asp-validation-for="Description"></span>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-sm-6">
+        <label asp-for="CategoryId" class="form-label"></label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+            <option value="0">Choose…</option>
+        </select>
+        <span asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="col-sm-6">
+        <label asp-for="DurationHours" class="form-label"></label>
+        <input asp-for="DurationHours" class="form-control" type="number" min="1" max="3" />
+        <span asp-validation-for="DurationHours"></span>
+        <div class="form-text">The learner pays 1 credit per hour.</div>
+    </div>
+    <div class="col-sm-6">
+        <label asp-for="Level" class="form-label"></label>
+        <select asp-for="Level" asp-items="Html.GetEnumSelectList<SkillLevel>()" class="form-select"></select>
+    </div>
+    <div class="col-sm-6">
+        <label asp-for="Mode" class="form-label"></label>
+        <select asp-for="Mode" asp-items="Html.GetEnumSelectList<SessionMode>()" class="form-select"></select>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+@model BookingCreateViewModel
+@{
+    ViewData["Title"] = "Request a session";
+    var o = Model.Offer!;
+    var enough = Model.MyCredits >= o.DurationHours;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <a asp-controller="Skills" asp-action="Details" asp-route-id="@o.Id" class="small">← Back to skill</a>
+        <div class="ss-card mt-2">
+            <h1 class="h4 mb-1">Request a session</h1>
+            <p class="text-muted mb-4">@o.Title with @o.Teacher!.FullName</p>
+
+            <div class="d-flex justify-content-between p-3 rounded-3 mb-4" style="background:var(--ss-accent-soft)">
+                <span>Cost: <strong>@o.DurationHours credit@(o.DurationHours == 1 ? "" : "s")</strong></span>
+                <span>Your balance: <strong>@Model.MyCredits</strong></span>
+            </div>
+
+            @if (!enough)
+            {
+                <div class="alert alert-warning">You don't have enough credits for this session. <a asp-controller="Skills" asp-action="Create">Offer a skill</a> and teach someone to earn more.</div>
+            }
+
+            <form asp-action="Create" method="post" novalidate>
+                <input type="hidden" asp-for="SkillOfferId" />
+                <div asp-validation-summary="ModelOnly" class="mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="ScheduledAt" class="form-label"></label>
+                    <input asp-for="ScheduledAt" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="ScheduledAt"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Message" class="form-label"></label>
+                    <textarea asp-for="Message" class="form-control" rows="3" placeholder="What do you want to focus on?"></textarea>
+                    <span asp-validation-for="Message"></span>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" disabled="@(!enough)">Send request and hold @o.DurationHours credit@(o.DurationHours == 1 ? "" : "s")</button>
+                <p class="small text-muted text-center mt-2 mb-0">Credits come back if the teacher declines or you cancel.</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

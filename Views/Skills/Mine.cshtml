@@ -1,0 +1,25 @@
+@model List<SkillCard>
+@{ ViewData["Title"] = "My skills"; }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">My skills</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Offer a skill</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="ss-card empty-state">
+        <div class="big">🎓</div>
+        <p>You haven't offered any skills yet. Teaching is how you earn credits.</p>
+        <a asp-action="Create" class="btn btn-primary">Offer your first skill</a>
+    </div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var card in Model)
+        {
+            <div class="col-md-6 col-lg-4"><partial name="_SkillCard" model="card" /></div>
+        }
+    </div>
+}

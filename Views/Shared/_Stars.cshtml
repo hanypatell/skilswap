@@ -1,0 +1,10 @@
+@model double?
+@if (Model.HasValue)
+{
+    var full = (int)Math.Round(Model.Value);
+    <span class="stars" title="@Model.Value.ToString("0.0") out of 5">@(new string('★', full))@(new string('☆', 5 - full))</span>
+}
+else
+{
+    <span class="text-muted small">New</span>
+}

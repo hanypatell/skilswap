@@ -1,0 +1,25 @@
+@model SkillOffer
+@{
+    ViewData["Title"] = "Delete skill";
+    var hasBookings = (bool)ViewBag.HasBookings;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="ss-card">
+            <h1 class="h4">Delete "@Model.Title"?</h1>
+            @if (hasBookings)
+            {
+                <div class="alert alert-warning mt-3">This skill already has sessions booked or completed. To keep everyone's history, it will be <strong>paused</strong> instead of deleted.</div>
+            }
+            else
+            {
+                <p class="text-muted">This can't be undone.</p>
+            }
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-danger">@(hasBookings ? "Pause skill" : "Delete skill")</button>
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Keep it</a>
+            </form>
+        </div>
+    </div>
+</div>

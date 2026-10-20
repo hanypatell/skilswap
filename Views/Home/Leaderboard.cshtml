@@ -1,0 +1,33 @@
+@model List<LeaderboardEntry>
+@{ ViewData["Title"] = "Leaderboard"; }
+
+<h1 class="h3 mb-1">Leaderboard</h1>
+<p class="text-muted mb-4">Members ranked by hours taught in completed sessions.</p>
+
+@if (!Model.Any())
+{
+    <div class="ss-card empty-state"><div class="big">🏆</div><p>No completed sessions yet.</p></div>
+}
+else
+{
+    <div class="ss-table table-responsive">
+        <table class="table">
+            <thead>
+                <tr><th>Rank</th><th>Teacher</th><th class="d-none d-md-table-cell">Department</th><th>Hours</th><th class="d-none d-sm-table-cell">Sessions</th><th>Rating</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td class="rank rank-@t.Rank">#@t.Rank</td>
+                        <td><span class="d-flex align-items-center gap-2"><partial name="_Avatar" model="t.Name" /> @t.Name</span></td>
+                        <td class="d-none d-md-table-cell text-muted">@t.Department</td>
+                        <td class="fw-bold">@t.HoursTaught</td>
+                        <td class="d-none d-sm-table-cell">@t.SessionsTaught</td>
+                        <td><partial name="_Stars" model="t.AverageRating" /> <span class="small text-muted">@t.AverageRating?.ToString("0.0")</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

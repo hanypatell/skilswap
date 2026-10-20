@@ -1,0 +1,32 @@
+@model User?
+@if (Model == null)
+{
+    <div class="d-flex gap-2 mt-2 mt-lg-0">
+        <a class="btn btn-outline-primary btn-sm" asp-controller="Account" asp-action="Login">Log in</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Register">Join free</a>
+    </div>
+}
+else
+{
+    <div class="d-flex flex-wrap align-items-center gap-2 mt-2 mt-lg-0">
+        <a class="credit-pill" asp-controller="Wallet" asp-action="Index" title="Your time credits">⏱ @Model.Credits credit@(Model.Credits == 1 ? "" : "s")</a>
+        <div class="dropdown">
+            <button class="btn btn-sm d-flex align-items-center gap-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <partial name="_Avatar" model="Model.FullName" />
+                <span>@Model.FullName.Split(' ')[0]</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" asp-controller="Bookings" asp-action="Index">My sessions</a></li>
+                <li><a class="dropdown-item" asp-controller="Skills" asp-action="Mine">My skills</a></li>
+                <li><a class="dropdown-item" asp-controller="Wallet" asp-action="Index">Wallet</a></li>
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="dropdown-item">Log out</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+}

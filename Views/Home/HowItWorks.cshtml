@@ -1,0 +1,35 @@
+@{ ViewData["Title"] = "How it works"; }
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <h1 class="h3 mb-3">How SkillSwap works</h1>
+        <p class="lead text-muted">Every student is good at something. SkillSwap lets you trade that time instead of paying for tuition.</p>
+
+        <div class="ss-card mb-3">
+            <h2 class="h5">⏱ One hour = one credit</h2>
+            <p class="mb-0 text-muted">Every hour is worth the same, whether it's guitar or graph theory. New members get <strong>3 free credits</strong> to start learning straight away.</p>
+        </div>
+        <div class="ss-card mb-3">
+            <h2 class="h5">🔒 Credits are held, not lost</h2>
+            <p class="mb-0 text-muted">When you request a session, its credits are put on hold. If the teacher declines or you cancel, they come straight back to your wallet.</p>
+        </div>
+        <div class="ss-card mb-3">
+            <h2 class="h5">✅ The learner confirms</h2>
+            <p class="mb-0 text-muted">After the session, the learner marks it as done. Only then does the teacher earn the credits, so nobody gets paid for a session that didn't happen.</p>
+        </div>
+        <div class="ss-card mb-4">
+            <h2 class="h5">⭐ Reviews build trust</h2>
+            <p class="mb-0 text-muted">Learners rate each session from 1 to 5 stars. Ratings show on skills and on the leaderboard.</p>
+        </div>
+
+        <h2 class="h5 mb-3">Session lifecycle</h2>
+        <div class="ss-card">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <partial name="_StatusBadge" model="BookingStatus.Pending" /> →
+                <partial name="_StatusBadge" model="BookingStatus.Accepted" /> →
+                <partial name="_StatusBadge" model="BookingStatus.Completed" />
+            </div>
+            <p class="small text-muted mt-3 mb-0">A pending request can be <strong>Declined</strong> by the teacher. A pending or accepted session can be <strong>Cancelled</strong> by the learner. Both refund the credits.</p>
+        </div>
+    </div>
+</div>

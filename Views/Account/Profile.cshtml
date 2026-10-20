@@ -1,0 +1,36 @@
+@model ProfileViewModel
+@{ ViewData["Title"] = "Profile"; }
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="ss-card">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <partial name="_Avatar" model="Model.FullName" view-data='new ViewDataDictionary(ViewData) { ["Size"] = "avatar-lg" }' />
+                <div>
+                    <h1 class="h4 mb-0">Your profile</h1>
+                    <span class="text-muted small">@Model.Email</span>
+                </div>
+            </div>
+            <form asp-action="Profile" method="post" novalidate>
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label"></label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Department" class="form-label"></label>
+                    <input asp-for="Department" class="form-control" />
+                    <span asp-validation-for="Department"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Bio" class="form-label"></label>
+                    <textarea asp-for="Bio" class="form-control" rows="3" placeholder="What are you good at? What do you want to learn?"></textarea>
+                    <span asp-validation-for="Bio"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

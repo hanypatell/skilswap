@@ -1,0 +1,24 @@
+@model SkillCard
+@{ var o = Model.Offer; }
+<a class="skill-card" asp-controller="Skills" asp-action="Details" asp-route-id="@o.Id">
+    <div class="d-flex justify-content-between align-items-start gap-2">
+        <span class="tag">@o.Category?.Icon @o.Category?.Name</span>
+        @if (!o.IsActive)
+        {
+            <span class="tag tag-muted">Paused</span>
+        }
+        else
+        {
+            <span class="tag tag-accent">@o.DurationHours hr · @o.DurationHours cr</span>
+        }
+    </div>
+    <h3>@o.Title</h3>
+    <p>@(o.Description.Length > 110 ? o.Description[..110] + "…" : o.Description)</p>
+    <div class="skill-meta">
+        <span class="d-flex align-items-center gap-2">
+            <partial name="_Avatar" model="o.Teacher!.FullName" />
+            @o.Teacher.FullName
+        </span>
+        <span><partial name="_Stars" model="Model.AverageRating" /></span>
+    </div>
+</a>

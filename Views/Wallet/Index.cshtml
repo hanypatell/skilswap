@@ -1,0 +1,28 @@
+@model WalletViewModel
+@{ ViewData["Title"] = "Wallet"; }
+
+<h1 class="h3 mb-4">Wallet</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="ss-card stat h-100"><strong>@Model.Balance</strong><span>Available credits</span></div></div>
+    <div class="col-md-4"><div class="ss-card stat h-100"><strong style="color:#8a5a10">@Model.HeldCredits</strong><span>On hold for upcoming sessions</span></div></div>
+    <div class="col-md-4"><div class="ss-card stat h-100"><strong>@Model.TotalEarned</strong><span>Earned by teaching</span></div></div>
+</div>
+
+<h2 class="h5 mb-3">Credit history</h2>
+<div class="ss-table table-responsive">
+    <table class="table">
+        <thead><tr><th>Date</th><th>Details</th><th class="d-none d-sm-table-cell">Type</th><th class="text-end">Amount</th></tr></thead>
+        <tbody>
+            @foreach (var t in Model.Transactions)
+            {
+                <tr>
+                    <td class="text-muted small text-nowrap">@t.CreatedAt.ToString("d MMM, h:mm tt")</td>
+                    <td>@t.Description</td>
+                    <td class="d-none d-sm-table-cell"><span class="tag tag-muted">@t.Type</span></td>
+                    <td class="text-end @(t.Amount >= 0 ? "amount-plus" : "amount-minus")">@(t.Amount >= 0 ? "+" : "")@t.Amount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

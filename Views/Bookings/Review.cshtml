@@ -1,0 +1,37 @@
+@model ReviewViewModel
+@{
+    ViewData["Title"] = "Leave a review";
+    var b = Model.Booking!;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="ss-card">
+            <h1 class="h4 mb-1">How was your session?</h1>
+            <p class="text-muted mb-4">@b.SkillOffer!.Title with @b.Teacher!.FullName</p>
+            <form asp-action="Review" method="post" novalidate>
+                <input type="hidden" asp-for="BookingId" />
+                <div class="mb-3">
+                    <label class="form-label d-block">Rating</label>
+                    <div class="star-input">
+                        @for (var i = 5; i >= 1; i--)
+                        {
+                            <input type="radio" id="star@(i)" name="Rating" value="@i" checked="@(Model.Rating == i)" />
+                            <label for="star@(i)" title="@i star@(i == 1 ? "" : "s")">★</label>
+                        }
+                    </div>
+                    <span asp-validation-for="Rating"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Comment" class="form-label">Comment <span class="text-muted fw-normal">(optional)</span></label>
+                    <textarea asp-for="Comment" class="form-control" rows="3" placeholder="What did you learn? Would you recommend this teacher?"></textarea>
+                    <span asp-validation-for="Comment"></span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Submit review</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Later</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
